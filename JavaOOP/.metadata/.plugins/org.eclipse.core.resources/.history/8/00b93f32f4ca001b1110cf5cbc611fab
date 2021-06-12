@@ -1,0 +1,12 @@
+
+public class HumanTest {
+
+	public static void main(String[] args) {
+		Human Mohammad = new Human();
+		Human Ahmad = new Human();
+		Human Amro = new Human();
+		Mohammad.attack(Amro);
+		System.out.println(Amro.health);
+
+	}
+}

@@ -1,0 +1,13 @@
+
+public class HumanTest {
+
+	public static void main(String[] args) {
+		Ninja Mohammad = new Ninja();
+		Wizard Ahmad = new Wizard();
+		Samurai Amro = new Samurai();
+		Mohammad.steal(Amro);
+		System.out.println(Amro.health);
+		System.out.println(Mohammad.health);
+
+	}
+}
