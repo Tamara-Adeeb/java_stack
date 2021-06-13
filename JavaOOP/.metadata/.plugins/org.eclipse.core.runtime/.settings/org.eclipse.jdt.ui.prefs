@@ -1,4 +1,4 @@
-content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"/>
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="BankAccount"><rhs name\="BankAccount"/></lhs><lhs name\="phone.Ringable"><rhs name\="phone.Galaxy"/></lhs><lhs name\="phone.Phone"><rhs name\="phone.Galaxy"/></lhs><lhs name\="phone.Galaxy"><rhs name\="phone.Galaxy"/></lhs></history>
 content_assist_number_of_computers=15
 content_assist_proposals_background=255,255,255
 content_assist_proposals_foreground=0,0,0
