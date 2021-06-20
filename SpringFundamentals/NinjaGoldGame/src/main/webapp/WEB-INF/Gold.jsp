@@ -19,18 +19,24 @@
 			<input type="hidden" name="gold" value="Farm" /> <input
 				type="submit" value="Find Gold!" />
 		</div>
+	</form>
+	<form action="/countGold">
 		<div>
 			<h3>Cave</h3>
 			<p>(earns 5-10 gold)</p>
 			<input type="hidden" name="gold" value="cave" /> <input
 				type="submit" value="Find Gold!" />
 		</div>
+	</form>
+	<form action="/countGold">
 		<div>
 			<h3>House</h3>
 			<p>(earns 2-5 gold)</p>
 			<input type="hidden" name="gold" value="house" /> <input
 				type="submit" value="Find Gold!" />
 		</div>
+	</form>
+	<form action="/countGold">
 		<div>
 			<h3>Casino!</h3>
 			<p>(earns/takes 0-50 gold)</p>
@@ -38,6 +44,20 @@
 				type="submit" value="Find Gold!" />
 		</div>
 	</form>
-
+	<p>
+		<c:forEach items="${Activities}" var="active">
+			<c:choose>
+				<c:when test='${active.contains("earned")}'>
+					<p style="color: green;">${active}</p>
+				</c:when>
+				<c:when test='${active.contains("lost")}'>
+					<p style="color: red;">${active}</p>
+				</c:when>
+				<c:otherwise>
+					<p>${active}</p>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	</p>
 </body>
 </html>
