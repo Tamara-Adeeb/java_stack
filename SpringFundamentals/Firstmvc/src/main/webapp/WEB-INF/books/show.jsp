@@ -13,6 +13,8 @@
 <p> Language: <c:out value="${book.language}"></c:out></p>
 <p> Number of Pages: <c:out value="${book.numberOfPages}"/></p>
 
+<a href="/books/${book_id}/edit"> Edit </a>
+
 
 </body>
 </html>

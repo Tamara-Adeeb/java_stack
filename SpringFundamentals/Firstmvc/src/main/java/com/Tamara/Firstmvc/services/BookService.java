@@ -45,6 +45,7 @@ public class BookService {
 		  // should i use the save() and if i want to use it how
 		 // the book is instance from Book class
 		 //the bookRepository is an variable from the BookRepository
+		 // why i would use the repository if i can use all the CRUD without call it in the repository
 	 }
 	 public void deleteBook(Long id) {
 		 Book book = this.findBook(id);
@@ -54,6 +55,9 @@ public class BookService {
 	 public Book createBook(Book book) {
 	        return bookRepository.save(book);
 	    }
+	 public Book updateBook(Book book ) {
+			 return this.creatBook(book);  
+	 }
 
 	
 }
