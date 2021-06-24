@@ -1,18 +1,19 @@
-package com.Tamara.License.models;
+package com.Tamara.DojoandNinjas.models;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,40 +21,38 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.sun.istack.NotNull;
 
 @Entity
-@Table(name = "persons")
-public class Person {
+@Table(name = "ninjas")
+public class Ninja {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
-	@Size(min = 2, max = 255)
+	@Size(min = 2, max = 40)
 	private String firstName;
 	@NotNull
-	@Size(min = 2, max = 255)
+	@Size(min = 2, max = 40)
 	private String lastName;
+	@NotNull
+	@Min(13)
+	private int age;
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createdAt;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updatedAt;
 
-	@OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Licenses liscenses;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "dojo_id")
+	private Dojo dojo;
 
-	public Licenses getLiscenses() {
-		return liscenses;
+	public Ninja() {
 	}
 
-	public void setLiscenses(Licenses liscenses) {
-		this.liscenses = liscenses;
-	}
-
-	public Person() {
-	}
-
-	public Person(@Size(min = 2, max = 255) String firstName, @Size(min = 2, max = 255) String lastName) {
+	public Ninja(@Size(min = 2, max = 40) String firstName, @Size(min = 2, max = 40) String lastName,
+			@Min(13) int age) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.age = age;
 	}
 
 	public Long getId() {
@@ -64,7 +63,6 @@ public class Person {
 		this.id = id;
 	}
 
-	@Column(name = "first_name", nullable = true, length = 255)
 	public String getFirstName() {
 		return firstName;
 	}
@@ -73,13 +71,28 @@ public class Person {
 		this.firstName = firstName;
 	}
 
-	@Column(name = "last_name", nullable = true, length = 255)
 	public String getLastName() {
 		return lastName;
 	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public Dojo getDojo() {
+		return dojo;
+	}
+
+	public void setDojo(Dojo dojo) {
+		this.dojo = dojo;
 	}
 
 	@PrePersist
@@ -91,5 +104,4 @@ public class Person {
 	protected void onUpdate() {
 		this.updatedAt = new Date();
 	}
-
 }
