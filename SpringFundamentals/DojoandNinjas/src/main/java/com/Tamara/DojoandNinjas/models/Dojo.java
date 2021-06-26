@@ -67,11 +67,11 @@ public class Dojo {
 	public void setNinjas(List<Ninja> ninjas) {
 		this.ninjas = ninjas;
 	}
-	public void addNinjas(Ninja ninjas) {
-		if(!this.getNinjas().contains(ninjas)) {
-			this.getNinjas().add(ninjas);
-		}
-	}
+//	public void addNinjas(Ninja ninjas) {
+//		if(!this.getNinjas().contains(ninjas)) {
+//			this.getNinjas().add(ninjas);
+//		}
+//	}
 
 	@PrePersist
 	protected void onCreate() {

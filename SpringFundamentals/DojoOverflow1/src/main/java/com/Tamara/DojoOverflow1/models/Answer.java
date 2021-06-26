@@ -1,4 +1,4 @@
-package com.Tamara.DojoandNinjas.models;
+package com.Tamara.DojoOverflow1.models;
 
 import java.util.Date;
 
@@ -13,28 +13,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.sun.istack.NotNull;
 
 @Entity
-@Table(name = "ninjas")
-public class Ninja {
+@Table(name = "answers")
+public class Answer {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
-	@Size(min = 2, max = 40)
-	private String firstName;
-	@NotNull
-	@Size(min = 2, max = 40)
-	private String lastName;
-	@NotNull
-	@Min(13)
-	private int age;
+	private String answer;
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createdAt;
@@ -42,10 +34,24 @@ public class Ninja {
 	private Date updatedAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "dojo_id")
-	private Dojo dojo;
+	@JoinColumn(name = "question_id")
+	private Question question;
 
-	public Ninja() {
+	public Answer() {
+
+	}
+
+	public Answer(String answer, Question question) {
+		this.answer = answer;
+		this.question = question;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	public Long getId() {
@@ -56,36 +62,12 @@ public class Ninja {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getAnswer() {
+		return answer;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public Dojo getDojo() {
-		return dojo;
-	}
-
-	public void setDojo(Dojo dojo) {
-		this.dojo = dojo;
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
 
 	@PrePersist

@@ -1,5 +1,7 @@
 package com.Tamara.DojoandNinjas.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -32,11 +34,12 @@ public class DojoNinjaController {
 	}
 	@GetMapping("/ninja/new")
 	public String createNinja(@ModelAttribute("ninja") Ninja ninja,Model model) {
-		model.addAttribute("dojos", this.dojoNinjaService.findAllDojos());
+		List<Dojo> dojos = this.dojoNinjaService.findAllDojos();
+		model.addAttribute("dojos", dojos);
 		return "ninja.jsp";
 	}
 	@PostMapping("/addNinja")
-	public String createNinja(@Valid @ModelAttribute("ninja") Ninja ninja) {
+	public String createNinja( @ModelAttribute("ninja") Ninja ninja) {
 		this.dojoNinjaService.createNinja(ninja);
 		return "redirect:/ninja/new";
 	}

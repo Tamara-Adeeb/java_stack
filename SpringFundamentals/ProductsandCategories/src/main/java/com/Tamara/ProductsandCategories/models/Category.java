@@ -30,8 +30,6 @@ public class Category {
 	@NotNull
 	@Size(min = 2, max = 255)
 	private String name;
-	private String description;
-	private double price;
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createdAt;
@@ -43,6 +41,42 @@ public class Category {
 
 	)
 	private List<Product> products;
+
+	public Category() {
+		
+	}
+	
+	public void addPoducts(Product product) {
+		if(!this.getProducts().contains(product)) {
+			this.getProducts().add(product);
+		}
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
 
 	@PrePersist
 	protected void onCreate() {
