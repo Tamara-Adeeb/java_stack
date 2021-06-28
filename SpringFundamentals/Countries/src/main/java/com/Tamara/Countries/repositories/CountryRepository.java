@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import com.Tamara.Countries.models.Country;
 
-import net.bytebuddy.asm.Advice.OffsetMapping.Sort;
 
+
+@Repository
 // how can i use order by in queries 
 //how i can defined a value in queries
 // does the order of the join have effect
@@ -18,26 +20,26 @@ public interface CountryRepository extends CrudRepository<Country, Long> {
 	List<Object[]> findCountrySpekeslanguage(String launguage);
 
 	@Query("SELECT c.name,COUNT(ci.id) as city_count FROM Country c JOIN c.cities ci GROUP BY c.name ")
-	List<Object[]> findNumberOfCitiesInCountry(Sort sort);
-	// sort.by("city_count")
-
-	@Query("SELECT c.name, ci.name,ci.population FROM Country c JOIN c.cities ci WHERE c.name=?1 AND ci.population > 500,000")
-	List<Object[]> findCountryCityPopulation(String name, Sort sort);
-	// sort.by(sort.Direction.DESC,"population")
-
-	@Query("SELECT languages.language,countries.name,languages.percentage FROM countries LEFT JOIN languages On countries.id = languages.country_id WHERE languages.percentage > 89.0")
-	List<Object[]> findCountryLaungagePersentage(Sort sort);
+	List<Object[]> findNumberOfCitiesInCountry();
 	
-	@Query("SELECT * FROM countries WHERE surface_area=501 AND population >100000")
+
+//	@Query("SELECT c.name, ci.name,ci.population FROM Country c JOIN c.cities ci WHERE c.name='Mexico' AND ci.population > 500,000 GROUP BY ci.population DESC ")
+//	List<Object[]> findCountryCityPopulation();
+//	// sort.by(sort.Direction.DESC,"population")
+
+	@Query(value="SELECT languages.language,countries.name,languages.percentage FROM countries LEFT JOIN languages On countries.id = languages.country_id WHERE languages.percentage > 89.0 GROUP BY languages.percentage DESC", nativeQuery = true)
+	List<Object[]> findCountryLaungagePersentage();
+	
+	@Query(value="SELECT * FROM countries WHERE surface_area=501 AND population >100000", nativeQuery = true)
 	List<Country> findAllCountryWIthSurfavweareaOF501AndPopulationMore100000();
 	
-	@Query("SELECT c FROM Country c WHERE c.governmentForm=?1 AND c.surfaceArea > 200 AND c.lifeExpectancy >75")
-	List<Country> findAllCountryWith200And75(String governmentForm);
+	@Query("SELECT c FROM Country c WHERE c.governmentForm='Constitutional Monarchy' AND c.surfaceArea > 200 AND c.lifeExpectancy >75")
+	List<Country> findAllCountryWith200And75();
 	
-	@Query("SELECT c.name,ci.name,ci.district,ci.population FROM Country c JOIN c.cities ci WHERE c.name=Argentina AND ci.district = Buenos Aires AND ci.population > 500000  ")
+	@Query("SELECT c.name,ci.name,ci.district,ci.population FROM Country c JOIN c.cities ci WHERE c.name='Argentina' AND ci.district = 'Buenos Aires' AND ci.population > 500000  ")
 	List<Object[]> findAllCityiesInArgentinaAndBuenosaires();
 	
 	@Query("SELECT c.region COUNT(c.id) FROM Country c GROUP BY c.region ")
-	List<Object[]> findAllRegionCountryNumber(Sort sort);
+	List<Object[]> findAllRegionCountryNumber();
 
 }
