@@ -1,17 +1,23 @@
 package com.Tamara.LoginRegistration.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,8 +28,10 @@ public class User {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	@NotNull
 	@Size(min=2,max=40,message="First Name must be between 2-40 characters.")
 	private String firstName;
+	@NotNull
 	@Size(min=2,max=40,message="Last Name must be between 2-40 characters.")
 	private String lastName;
 	@Email
@@ -39,24 +47,18 @@ public class User {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
     
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(
+    		name="users_courses",
+    		joinColumns = @JoinColumn(name="user_id"),
+    		inverseJoinColumns = @JoinColumn(name="course_id")
+    		)
+    private List<Course> courses;
+    
+    
     public User() {
 	}
     
-
-	public User(Long id,
-			@Size(min = 2, max = 40, message = "First Name must be between 2-40 characters.") String firstName,
-			@Size(min = 2, max = 40, message = "Last Name must be between 2-40 characters.") String lastName,
-			@Email String email,
-			@Size(min = 8, max = 64, message = "password must be between 8-64 characters.") String password,
-			@Size(min = 8, max = 64, message = "password must be between 8-64 characters.") String passwordConfirmation) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-		this.passwordConfirmation = passwordConfirmation;
-	}
-
 
 	public Long getId() {
 		return id;

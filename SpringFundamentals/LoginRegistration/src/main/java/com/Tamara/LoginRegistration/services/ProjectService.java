@@ -1,19 +1,29 @@
 package com.Tamara.LoginRegistration.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import com.Tamara.LoginRegistration.models.Course;
 import com.Tamara.LoginRegistration.models.User;
+import com.Tamara.LoginRegistration.models.UsersCourses;
+import com.Tamara.LoginRegistration.repositories.CourseRepository;
 import com.Tamara.LoginRegistration.repositories.UserRepository;
+import com.Tamara.LoginRegistration.repositories.UsersCoursesRepository;
 
 @Service
 public class ProjectService {
 	private final UserRepository userRepository;
+	private final CourseRepository courseRepository;
+	private final UsersCoursesRepository usersCoursesRepository;
 
-	public ProjectService(UserRepository userRepository) {
+	public ProjectService(UserRepository userRepository, CourseRepository courseRepository,
+			UsersCoursesRepository usersCoursesRepository) {
 		this.userRepository = userRepository;
+		this.courseRepository = courseRepository;
+		this.usersCoursesRepository = usersCoursesRepository;
 	}
 	
 	public User userRegister(User user) {
@@ -54,4 +64,49 @@ public class ProjectService {
             }
         }
     }
+	
+	public List<Course> findAllCourses(){
+		return this.courseRepository.findAll();
+	}
+
+	public Course findCourse(Long id) {
+        Optional<Course> optionalCourse = this.courseRepository.findById(id);
+        if(optionalCourse.isPresent()) {
+            return optionalCourse.get();
+        } else {
+            return null;
+        }
+    }
+	
+	public Course createCourse(Course course) {
+		return this.courseRepository.save(course);
+	}
+	
+	public Course updateCourse(Course course) {
+		return this.createCourse(course);
+	}
+	
+	public Course addUserToCourse(User user, Course course) {
+		course.addUser(user);
+		int numSignup = course.getSignups();
+		numSignup ++;
+		course.setSignups(numSignup);
+		return this.courseRepository.save(course);
+	}
+	public Course removeUserFromCourse(User user, Course course) {
+		course.removeUser(user);
+		int numSignup = course.getSignups();
+		numSignup --;
+		course.setSignups(numSignup);
+		return this.courseRepository.save(course);
+	}
+	
+	public void delete(Long id) {
+		this.courseRepository.deleteById(id);
+	}
+	
+	public List<UsersCourses> findAllJoinedUser(Course course){
+		return this.usersCoursesRepository.findByCourse(course);
+	}
+	
 }
